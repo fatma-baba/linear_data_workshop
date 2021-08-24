@@ -1,0 +1,116 @@
+ALGORITHM problem_1
+VAR
+    sum : INTEGER := 0;
+    i,j :INTEGER;
+    dup : BOOLEAN := FALSE
+BEGIN
+    FOR i FROM 0 TO set1.length-1 STEP 1  DO
+        dup := FALSE
+        FOR j FROM 0 TO set2.length-1 STEP 1  DO
+            IF (set1[i] = set2[i]) THEN
+                dup := TRUE;
+                break;
+            END_IF
+        END_FOR
+        IF (dup = FALSE) THEN
+            sum := sum + set1[i]
+        END_IF
+    END_FOR
+
+    FOR i FROM 0 TO set2.length-1 STEP 1  DO
+        dup := FALSE
+        FOR j FROM 0 TO set1.length-1 STEP 1  DO
+            IF (set2[i] = set1[i]) THEN
+                dup := TRUE;
+                break;
+            END_IF
+        END_FOR
+        IF (dup = FALSE) THEN
+            sum := sum + set2[i]
+        END_IF
+    END_FOR
+
+    Write(sum)
+END
+
+
+ALGORITHM problem_1_solution2
+VAR
+    sum : INTEGER := 0;
+    i,j :INTEGER;
+    htab : HASH_TABLE<INTEGER,INTEGER>;
+    count: INTEGER;
+BEGIN
+    FOR i FROM 0 TO set1.length-1 STEP 1  DO
+        IF (htab.lookup(set1[i]) = TRUE) THEN
+            count := htab.get(set1[i]);
+            htab.insert(set1[i], count+1)
+        ELSE
+            htab.insert(set1[i], 1)
+        END_IF
+    END_FOR
+
+    FOR i FROM 0 TO set2.length-1 STEP 1  DO
+        IF (htab.lookup(set2[i]) = TRUE) THEN
+            count := htab.get(set2[i]);
+            htab.insert(set2[i], count+1)
+        ELSE
+            htab.insert(set2[i], 1)
+        END_IF
+    END_FOR
+
+    FOR i FROM 0 TO set2.length-1 STEP 1  DO
+        IF (htab.get(set2[i]) = 1) THEN
+            sum := sum + set2[i];
+        END_IF
+    END_FOR
+
+    FOR i FROM 0 TO set1.length-1 STEP 1  DO
+        IF (htab.get(set1[i]) = 1) THEN
+            sum := sum + set1[i];
+        END_IF
+    END_FOR
+    Write(sum)
+END
+
+
+ALGORITHM problem_2
+VAR
+    sum : INTEGER := 0;
+    i,j :INTEGER;
+BEGIN
+    FOR i FROM 0 TO set1.length-1 STEP 1  DO
+        FOR j FROM 0 TO set2.length-1 STEP 1  DO
+            IF (set1[i] = set2[i]) THEN
+                sum := sum + set1[i] * set2[j]
+            END_IF
+        END_FOR
+    END_FOR
+
+    Write(sum)
+END
+
+
+ALGORITHM problem_2_solution2
+VAR
+    sum : INTEGER := 0;
+    i,j :INTEGER;
+    htab : HASH_TABLE<INTEGER,INTEGER>;
+    count: INTEGER;
+BEGIN
+    FOR i FROM 0 TO set1.length-1 STEP 1  DO
+        IF (htab.lookup(set1[i]) = TRUE) THEN
+            count := htab.get(set1[i]);
+            htab.insert(set1[i], count+1)
+        ELSE
+            htab.insert(set1[i], 1)
+        END_IF
+    END_FOR
+
+    FOR i FROM 0 TO set2.length-1 STEP 1  DO
+        IF (htab.lookup(set2[i]) = TRUE) THEN
+            sum:= sum + set2[i] * 2
+        END_IF
+    END_FOR
+    Write(sum)
+END
